@@ -11,3 +11,22 @@
     import 'relative/path/to/stylesheet.scss';
 
 */
+body{
+    background-color:white;
+}
+
+.title{
+    color:rgb(49, 49, 49);
+    font-size: 4rem;
+    font-weight: 500;
+}
+
+.list{
+    color: rgb(173, 0, 0);
+    width: 600px;
+    height: 600px;
+    margin: auto;
+    font-size: 25px;
+    font-weight: 600;
+    
+}
