@@ -6,7 +6,7 @@ let url = "https://assets.breatheco.de/apis/fake/todos/user/CablCode";
 
 export function Home() {
 	const [todo, setTodo] = useState("");
-	const [tasks, setTask] = useState([{ label: "", done: false }]);
+	const [tasks, setTasks] = useState([]);
 
 	let addTodo = "";
 
@@ -19,27 +19,10 @@ export function Home() {
 		})
 			.then(res => res.json())
 			.then(response => {
-				setTask(
-					response.map((item, index) => {
-						return item;
-					})
-				);
-			});
-	};
-
-	const createList = () => {
-		fetch(url, {
-			method: "POST",
-			headers: {
-				"content-type": "application/json"
-			},
-			body: []
-		})
-			.then(response => {
-				return response;
-			})
-			.catch(err => {
-				console.log(err);
+				const newTasks = response.map(item => {
+					return item;
+				});
+				setTasks(newTasks);
 			});
 	};
 
@@ -59,11 +42,12 @@ export function Home() {
 			});
 	};
 
-	function addTask(event, item) {
+	function addTask(event) {
 		addTodo = event.target.value;
 		if (event.key === "Enter") {
 			if (addTodo) {
-				setTask(tasks.concat({ label: addTodo, done: false }));
+				const newTask = { label: addTodo, done: false };
+				setTasks([...tasks, newTask]);
 				setTodo("");
 			} else {
 				alert("ADD YOUR TASK");
@@ -75,14 +59,18 @@ export function Home() {
 	function removeItem(i) {
 		let newtasks = tasks.filter(item => item.label != i);
 		x = newtasks.length;
-		setTask(newtasks);
+		setTasks(newtasks);
 	}
-
-	updateList();
 
 	useEffect(() => {
 		getList();
 	}, []);
+
+	useEffect(() => {
+		if (tasks.length) {
+			updateList();
+		}
+	}, [tasks]);
 
 	const TodosHTML = tasks.map((task, i) => {
 		return (
